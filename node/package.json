@@ -1,0 +1,29 @@
+{
+  "name": "openadr-3-client",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=20.x"
+  },
+  "main": "api.js",
+  "type": "module",
+  "scripts": {
+    "watch": "npx tsc -w",
+    "build": "npm-run-all build:codegen build:codegen-schemas",
+    "build:codegen": "npx openapi-codegen gen openADR -c openadr-codegen.config.ts",
+    "build:codegen-srcdir": "mkdir -p ./src/codegen",
+    "build:codegen-schemas": "cp ./codegen-build/openAdRSchemas.ts ./src/codegen/openADRSchemas.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "got": "^14.4.2",
+    "openadr-3-ts-types": "file:../../openadr-3-ts-types/package"
+  }
+}
