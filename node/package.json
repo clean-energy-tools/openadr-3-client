@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "got": "^14.4.2",
+    "joi": "^17.13.3",
     "openadr-3-ts-types": "file:../../openadr-3-ts-types/package"
   }
 }

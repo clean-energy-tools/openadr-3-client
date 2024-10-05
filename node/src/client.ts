@@ -84,6 +84,21 @@ export class OADR3Client {
     get scope() { return this.#scope; }
 
     /**
+     * Return all data from the client required for configuring Got calls.
+     * 
+     * @param endpoint 
+     * @returns 
+     */
+    async clientParams(endpoint: string)
+        : Promise<{ endpoint: URL, headers: any }>
+    {
+        return {
+            endpoint: this.endpointURL(endpoint),
+            headers: this.authHeaders()
+        };
+    }
+
+    /**
      * Compute the URL, starting from oadr3URL, for the
      * API endpoint given in the string.
      * @param endpoint 
