@@ -6,7 +6,11 @@ import * as OADR3 from 'openadr-3-ts-types';
 import { OADR3Client } from '../client.js';
 import { tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
 
-export async function searchVenResources(client: OADR3Client, id: OADR3.ObjectID, params: OADR3.SearchVenResourcesQueryParams)
+export async function searchVenResources(
+    client: OADR3Client,
+    id: OADR3.ObjectID,
+    params: OADR3.SearchVenResourcesQueryParams
+)
     : Promise<Array<OADR3.Resource> | undefined>
 {
     const venID = validateParams<OADR3.ObjectID>(OADR3.joiValidateObjectID, id);
@@ -52,7 +56,11 @@ export async function createResource(client: OADR3Client, id: OADR3.ObjectID, re
     return validateBody<OADR3.Resource>(OADR3.joiValidateResource, parsed);
 }
 
-export async function searchVenResourceByID(client: OADR3Client, vid: OADR3.ObjectID, rid: OADR3.ObjectID)
+export async function searchVenResourceByID(
+    client: OADR3Client,
+    vid: OADR3.ObjectID,
+    rid: OADR3.ObjectID
+)
     : Promise<OADR3.Resource | undefined>
 {
     const venID = validateParams<OADR3.ObjectID>(OADR3.joiValidateObjectID, vid);
@@ -73,7 +81,11 @@ export async function searchVenResourceByID(client: OADR3Client, vid: OADR3.Obje
     return validateBody<OADR3.Resource>(OADR3.joiValidateResource, parsed);
 }
 
-export async function updateVenResource(client: OADR3Client, vid: OADR3.ObjectID, resource: OADR3.Resource)
+export async function updateVenResource(
+    client: OADR3Client, 
+    vid: OADR3.ObjectID, 
+    resource: OADR3.Resource
+)
     : Promise<OADR3.Resource | undefined>
 {
     const venID = validateParams<OADR3.ObjectID>(OADR3.joiValidateObjectID, vid);
@@ -98,7 +110,11 @@ export async function updateVenResource(client: OADR3Client, vid: OADR3.ObjectID
     return validateBody<OADR3.Resource>(OADR3.joiValidateResource, parsed);
 }
 
-export async function deleteVenResource(client: OADR3Client, vid: OADR3.ObjectID, rid: OADR3.ObjectID)
+export async function deleteVenResource(
+    client: OADR3Client, 
+    vid: OADR3.ObjectID, 
+    rid: OADR3.ObjectID
+)
     : Promise<OADR3.Resource | undefined>
 {
     const venID = validateParams<OADR3.ObjectID>(OADR3.joiValidateObjectID, vid);

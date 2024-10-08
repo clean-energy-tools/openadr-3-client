@@ -47,6 +47,8 @@ export async function createProgram(client: OADR3Client, program: OADR3.Program)
     const _program = validateParams<OADR3.Program>(OADR3.joiValidateProgram, program);
     const { endpoint, headers } = await client.clientParams('programs');
 
+    // console.log(`createProgram ${endpoint.href} ${util.inspect(headers)} ${util.inspect(program)}`);
+
     let progBody;
     try {
         const ret = await got.post(endpoint.href, {

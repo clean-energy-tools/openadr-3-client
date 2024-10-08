@@ -29,10 +29,13 @@ export async function searchSubscriptions(client: OADR3Client, params: OADR3.Sea
     return validateBodyArray<OADR3.Subscription>(OADR3.joiValidateSubscription, subscriptions);
 }
 
-export async function createSubscription(client: OADR3Client, event: OADR3.Subscription)
+export async function createSubscription(
+    client: OADR3Client,
+    subscription: OADR3.Subscription
+)
     : Promise<OADR3.Subscription | undefined>
 {
-    const _subscription = validateParams<OADR3.Subscription>(OADR3.joiValidateSubscription, event);
+    const _subscription = validateParams<OADR3.Subscription>(OADR3.joiValidateSubscription, subscription);
     const { endpoint, headers } = await client.clientParams('subscriptions');
 
     let subscriptionsBody;
@@ -50,7 +53,10 @@ export async function createSubscription(client: OADR3Client, event: OADR3.Subsc
     return validateBody<OADR3.Subscription>(OADR3.joiValidateSubscription, parsed);
 }
 
-export async function searchSubscriptionByID(client: OADR3Client, id: OADR3.ObjectID)
+export async function searchSubscriptionByID(
+    client: OADR3Client,
+    id: OADR3.ObjectID
+)
     : Promise<OADR3.Subscription | undefined>
 {
     const subID = validateParams<OADR3.ObjectID>(OADR3.joiValidateObjectID, id);
@@ -70,7 +76,9 @@ export async function searchSubscriptionByID(client: OADR3Client, id: OADR3.Obje
     return validateBody<OADR3.Subscription>(OADR3.joiValidateSubscription, parsed);
 }
 
-export async function updateSubscription(client: OADR3Client, event: OADR3.Subscription)
+export async function updateSubscription(
+    client: OADR3Client, event: OADR3.Subscription
+)
     : Promise<OADR3.Subscription | undefined>
 {
     const _sub = validateParams<OADR3.Subscription>(OADR3.joiValidateSubscription, event);
@@ -94,7 +102,10 @@ export async function updateSubscription(client: OADR3Client, event: OADR3.Subsc
     return validateBody<OADR3.Subscription>(OADR3.joiValidateSubscription, parsed);
 }
 
-export async function deleteSubscription(client: OADR3Client, id: OADR3.ObjectID)
+export async function deleteSubscription(
+    client: OADR3Client,
+    id: OADR3.ObjectID
+)
     : Promise<OADR3.Subscription | undefined>
 {
     const subID = validateParams<OADR3.ObjectID>(OADR3.joiValidateObjectID, id);

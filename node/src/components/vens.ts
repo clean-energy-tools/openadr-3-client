@@ -6,7 +6,10 @@ import * as OADR3 from 'openadr-3-ts-types';
 import { OADR3Client } from '../client.js';
 import { tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
 
-export async function searchVens(client: OADR3Client, params: OADR3.SearchVensQueryParams)
+export async function searchVens(
+    client: OADR3Client,
+    params: OADR3.SearchVensQueryParams
+)
     : Promise<Array<OADR3.Ven> | undefined>
 {
     const searchVens = validateParams<OADR3.SearchVensQueryParams>(OADR3.joiValidateSearchVens, params);
@@ -29,7 +32,10 @@ export async function searchVens(client: OADR3Client, params: OADR3.SearchVensQu
     return validateBodyArray<OADR3.Ven>(OADR3.joiValidateVen, events);
 }
 
-export async function createVen(client: OADR3Client, ven: OADR3.Ven)
+export async function createVen(
+    client: OADR3Client,
+    ven: OADR3.Ven
+)
     : Promise<OADR3.Ven | undefined>
 {
     const _ven = validateParams<OADR3.Ven>(OADR3.joiValidateVen, ven);
@@ -50,7 +56,10 @@ export async function createVen(client: OADR3Client, ven: OADR3.Ven)
     return validateBody<OADR3.Ven>(OADR3.joiValidateVen, parsed);
 }
 
-export async function searchVenByID(client: OADR3Client, id: OADR3.ObjectID)
+export async function searchVenByID(
+    client: OADR3Client,
+    id: OADR3.ObjectID
+)
     : Promise<OADR3.Ven | undefined>
 {
     const venID = validateParams<OADR3.ObjectID>(OADR3.joiValidateObjectID, id);
@@ -70,7 +79,10 @@ export async function searchVenByID(client: OADR3Client, id: OADR3.ObjectID)
     return validateBody<OADR3.Ven>(OADR3.joiValidateVen, parsed);
 }
 
-export async function updateVen(client: OADR3Client, ven: OADR3.Ven)
+export async function updateVen(
+    client: OADR3Client,
+    ven: OADR3.Ven
+)
     : Promise<OADR3.Ven | undefined>
 {
 
@@ -95,7 +107,10 @@ export async function updateVen(client: OADR3Client, ven: OADR3.Ven)
     return validateBody<OADR3.Ven>(OADR3.joiValidateVen, parsed);
 }
 
-export async function deleteVen(client: OADR3Client, id: OADR3.ObjectID)
+export async function deleteVen(
+    client: OADR3Client,
+    id: OADR3.ObjectID
+)
     : Promise<OADR3.Ven | undefined>
 {
     const venID = validateParams<OADR3.ObjectID>(OADR3.joiValidateObjectID, id);
