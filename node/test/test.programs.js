@@ -20,7 +20,7 @@ describe('Programs', async () => {
         // load the program from a file
         const _program = structuredClone(minProgram);
         // console.log(`create ${util.inspect(_program)}`);
-        const created = await OADR3Client.createProgram(allClient, _program);
+        const created = await allClient.createProgram(_program);
         const { error, value } = OADR3.joiValidateProgram(created);
         assert.ok(!error);
         progID = created.id;
@@ -28,7 +28,7 @@ describe('Programs', async () => {
     });
 
     await it('should read created Program object by ID', async () => {
-        const found = await OADR3Client.searchProgramByProgramId(allClient, progID);
+        const found = await allClient.searchProgramByProgramId(progID);
         const { error, value } = OADR3.joiValidateProgram(found);
         assert.ok(!error);
     });
@@ -44,7 +44,7 @@ describe('Programs', async () => {
     // });
 
     await it('should search for created Program object by target group', async () => {
-        const found = await OADR3Client.searchAllPrograms(allClient, {
+        const found = await allClient.searchAllPrograms({
             targetType: 'TEST'
         });
         assert.ok(Array.isArray(found));
@@ -60,7 +60,7 @@ describe('Programs', async () => {
         // make a change to the program
         const _modified = structuredClone(program);
         _modified.programName = 'MODIFIED program name';
-        const m = await OADR3Client.updateProgram(allClient, _modified);
+        const m = await allClient.updateProgram(_modified);
         // console.log(`updated program `, m);
         const { error, value } = OADR3.joiValidateProgram(m);
         if (error) {
@@ -72,13 +72,13 @@ describe('Programs', async () => {
     });
 
     await it('should read updated Program object by ID', async () => {
-        const found = await OADR3Client.searchProgramByProgramId(allClient, modified.id);
+        const found = await allClient.searchProgramByProgramId(modified.id);
         const { error, value } = OADR3.joiValidateProgram(found);
         assert.ok(!error);
     });
 
     await it('should delete Program object', async () => {
-        const deleted = await OADR3Client.deleteProgram(allClient, modified.id);
+        const deleted = await allClient.deleteProgram(modified.id);
         const { error, value } = OADR3.joiValidateProgram(deleted);
         assert.ok(!error);
     });
@@ -87,7 +87,7 @@ describe('Programs', async () => {
         let errored = false;
         let found;
         try {
-            found = await OADR3Client.searchProgramByProgramId(allClient, modified.id);
+            found = await allClient.searchProgramByProgramId(modified.id);
         } catch (err) {
             // console.log(err.stack);
             errored = true;
@@ -99,16 +99,25 @@ describe('Programs', async () => {
     });
 
     await it('should not find deleted Program object target group', async () => {
-        const found = await OADR3Client.searchAllPrograms(allClient, {
+        const found = await allClient.searchAllPrograms({
             targetType: 'TEST'
         });
+        // console.log(found);
         assert.ok(Array.isArray(found));
-        assert.ok(found.length <= 0);
+        let hasDeleted = false;
+        for (const f of found) {
+            if (f) {
+                if (f.id === program.id || f.id === modified.id) {
+                    hasDeleted = true;
+                }
+            }
+        }
+        assert.ok(hasDeleted === false);
     });
 
     await after(async () => {
         try {
-            const deleted = await OADR3Client.deleteProgram(allClient, progID);
+            const deleted = await allClient.deleteProgram(progID);
         } catch (err) { }
     });
 });
