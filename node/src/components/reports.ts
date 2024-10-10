@@ -7,10 +7,19 @@ import * as OADR3 from 'openadr-3-ts-types';
 import { OADR3Client } from '../client.js';
 import { tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
 
+import { schemas } from 'openadr-3-ts-types/dist/joi/oadr3.js';
+
 export async function searchAllReports(client: OADR3Client, params: OADR3.SearchAllReportsQueryParams)
     : Promise<Array<OADR3.Report> | undefined>
 {
-    const searchReports = validateParams<OADR3.SearchAllReportsQueryParams>(OADR3.joiValidateSearchAllReports, params);
+    ////// COPY IN CODE FROM validateParams
+    const { error, value } =  OADR3.joiSearchAllReports.validate(params);
+            // schemas.parameters.searchAllReports.query.validate(params);
+    if (error) {
+        throw new Error(`bad parameters ${util.inspect(error.details)}`);
+    }
+ 
+    const searchReports = value as OADR3.SearchAllReportsQueryParams; // validateParams<OADR3.SearchAllReportsQueryParams>(OADR3.joiSearchAllReports.validate, params);
     const { endpoint, headers } = await client.clientParams('reports');
 
     const options = {
@@ -27,7 +36,25 @@ export async function searchAllReports(client: OADR3Client, params: OADR3.Search
     }
     
     let _reports = tryParseBody<any[]>(reportsBody);
-    return validateBodyArray<OADR3.Report>(OADR3.joiReport.validate, _reports);
+    // console.log(`searchAllReports check return value ${util.inspect(_reports)}`);
+
+    //////////// Copy in code from validateBodyArray
+    const reports = new Array<OADR3.Report>();
+    if (_reports) {
+        for (const report of _reports) {
+            if (typeof report === 'undefined' || report === null) {
+                console.warn(`validateBodyArray item undefined or null in ${util.inspect(_reports)}`);
+            }
+            // console.log(`validateBodyArray item ${util.inspect(report)}`);
+            const { error, value } = OADR3.joiReport.validate(report);
+            if (error) {
+                throw new Error(`validateBodyArray FAIL VALIDATION ${util.inspect(error.details)}`);
+            }
+            reports.push(value as OADR3.Report);
+        }
+    }
+    return reports;
+    // return validateBodyArray<OADR3.Report>(OADR3.joiReport.validate, _reports);
 }
 
 export async function createReport(client: OADR3Client, report: OADR3.Report)

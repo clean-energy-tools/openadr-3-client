@@ -73,6 +73,9 @@ export async function searchProgramByProgramId(client: OADR3Client, id: OADR3.Ob
     : Promise<OADR3.Program | undefined>
 {
     const progID = validateParams<OADR3.ObjectID>(OADR3.joiValidateObjectID, id);
+    if (typeof progID === 'undefined') {
+        console.warn(`searchProgramByProgramId id ${util.inspect(id)} ==> ${util.inspect(progID)} was undefined`);
+    }
     const { endpoint, headers } = await client.clientParams(path.join('programs', progID));
 
     let progBody;

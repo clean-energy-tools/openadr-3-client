@@ -3,6 +3,7 @@ import util from 'node:util';
 import Joi from 'joi';
 
 export function validateParams<T>(validator: (data: any) => Joi.ValidationResult<any>, params: T): T {
+    // console.log(`validateParams ${util.inspect(validator)} ${util.inspect(params)}`);
     const { error, value } = validator(params);
     if (error) {
         throw new Error(`bad parameters ${util.inspect(error.details)}`);
@@ -25,9 +26,14 @@ export function tryParseBody<T>(body?: any): T | undefined {
 
 export function validateBodyArray<T>(validator: (data: any) => any, items: any[] | undefined)
 {
+    if (typeof validator === 'undefined') console.log(`validateBodyArray validator undefined`);
     const reports = new Array<T>();
     if (items) {
         for (const report of items) {
+            if (typeof report === 'undefined' || report === null) {
+                console.warn(`validateBodyArray item undefined or null in ${util.inspect(items)}`);
+            }
+            // console.log(`validateBodyArray item ${util.inspect(report)}`);
             const { error, value } = validator(report);
             if (error) {
                 throw new Error(`validateBodyArray FAIL VALIDATION ${util.inspect(error.details)}`);
