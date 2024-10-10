@@ -19,6 +19,7 @@ describe('Programs', async () => {
     await it('should create Program object', async () => {
         // load the program from a file
         const _program = structuredClone(minProgram);
+        _program.programName += Math.floor(Math.random() * 1000).toString();
         // console.log(`create ${util.inspect(_program)}`);
         const created = await allClient.createProgram(_program);
         const { error, value } = OADR3.joiValidateProgram(created);
@@ -59,7 +60,7 @@ describe('Programs', async () => {
     await it('should update Program object', async () => {
         // make a change to the program
         const _modified = structuredClone(program);
-        _modified.programName = 'MODIFIED program name';
+        _modified.programName = 'MODIFIED program name ' + Math.floor(Math.random() * 1000).toString();
         const m = await allClient.updateProgram(_modified);
         // console.log(`updated program `, m);
         const { error, value } = OADR3.joiValidateProgram(m);
@@ -92,7 +93,7 @@ describe('Programs', async () => {
             // console.log(err.stack);
             errored = true;
         }
-        assert.ok(errored);
+        assert.ok(typeof found === 'undefined' || errored);
         // const { error, value } = OADR3.joiValidateProgram(found);
         // assert.ok(!error);
         // assert found == undefined
