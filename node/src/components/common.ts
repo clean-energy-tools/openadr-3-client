@@ -5,6 +5,7 @@ import Joi from 'joi';
 export function validateParams<T>(validator: (data: any) => Joi.ValidationResult<any>, params: T): T {
     // console.log(`validateParams ${util.inspect(validator)} ${util.inspect(params)}`);
     const { error, value } = validator(params);
+    // console.log(`validateParams ${util.inspect(value)} ${util.inspect(error)}`);
     if (error) {
         throw new Error(`bad parameters ${util.inspect(error.details)}`);
     }

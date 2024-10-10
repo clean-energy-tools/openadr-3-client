@@ -193,6 +193,7 @@ describe('Reports', async () => {
             const found = await allClient.searchAllReports();
             for (const item of found) {
                 const { error, value } = OADR3.joiValidateReport(item);
+                await allClient.deleteReport(item.id);
             }
         } catch (err) { }
     });
