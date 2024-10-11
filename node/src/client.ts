@@ -134,14 +134,15 @@ export class OADR3Client {
     #authToken?: OADR3.ClientCredentialResponse;
     #authTokenTimeout?: any;
 
-    clientInfo() {
-        return {
-            client_id: this.#client_id,
-            client_secret: this.#client_secret,
-            scope: this.#scope,
-            auth: this.#authToken
-        }
-    }
+    // clientInfo() {
+    //     return {
+    //         client_id: this.#client_id,
+    //         client_secret: this.#client_secret,
+    //         scope: this.#scope,
+    //         auth: this.#authToken
+    //     }
+    // }
+    
     /**
      * Generate a headers object for use with 'got'
      * for the Bearer authorization header.  It
