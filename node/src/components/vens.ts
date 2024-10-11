@@ -4,7 +4,7 @@ import util from 'node:util';
 import got from 'got';
 import * as OADR3 from 'openadr-3-ts-types';
 import { OADR3Client } from '../client.js';
-import { tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
+import { OADR3Error, tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
 
 export async function searchVens(
     client: OADR3Client,
@@ -25,7 +25,9 @@ export async function searchVens(
         const _progs = await got.get(endpoint.href, options as any);
         vensBody = _progs?.body;
     } catch (err: any) {
-        throw new Error(`searchAllEvents FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`searchVens FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
     
     let events = tryParseBody<any[]>(vensBody);
@@ -49,7 +51,9 @@ export async function createVen(
         });
         venBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`createVen FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`createVen FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(venBody);
@@ -72,7 +76,9 @@ export async function searchVenByID(
         });
         venBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`searchVenByID FAIL GET ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`searchVenByID FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(venBody);
@@ -100,7 +106,9 @@ export async function updateVen(
         });
         venBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`updateVen FAIL PUT ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`updateVen FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(venBody);
@@ -123,7 +131,9 @@ export async function deleteVen(
         });
         venBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`deleteVen FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`deleteVen FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(venBody);

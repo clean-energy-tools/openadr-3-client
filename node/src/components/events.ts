@@ -4,7 +4,7 @@ import util from 'node:util';
 import got from 'got';
 import * as OADR3 from 'openadr-3-ts-types';
 import { OADR3Client } from '../client.js';
-import { tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
+import { OADR3Error, tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
 
 export async function searchAllEvents(client: OADR3Client, params: OADR3.SearchAllEventsQueryParams)
     : Promise<Array<OADR3.Event> | undefined>
@@ -43,7 +43,9 @@ export async function createEvent(client: OADR3Client, event: OADR3.Event)
         });
         eventBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`createEvent FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`createEvent FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(eventBody);
@@ -63,7 +65,9 @@ export async function searchEventsByID(client: OADR3Client, id: OADR3.ObjectID)
         });
         eventBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`searchEventsByID FAIL GET ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`searchEventsByID FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(eventBody);
@@ -88,7 +92,9 @@ export async function updateEvent(client: OADR3Client, event: OADR3.Event)
         });
         eventBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`updateEvent FAIL PUT ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`updateEvent FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(eventBody);
@@ -108,7 +114,9 @@ export async function deleteEvent(client: OADR3Client, id: OADR3.ObjectID)
         });
         eventBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`deleteEvent FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`deleteEvent FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(eventBody);

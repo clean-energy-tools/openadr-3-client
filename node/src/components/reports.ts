@@ -5,7 +5,7 @@ import Joi from 'joi';
 import got from 'got';
 import * as OADR3 from 'openadr-3-ts-types';
 import { OADR3Client } from '../client.js';
-import { tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
+import { OADR3Error, tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
 
 import { schemas } from 'openadr-3-ts-types/dist/joi/oadr3.js';
 
@@ -32,7 +32,9 @@ export async function searchAllReports(client: OADR3Client, params: OADR3.Search
         const _reports = await got.get(endpoint.href, options);
         reportsBody = _reports?.body;
     } catch (err: any) {
-        throw new Error(`searchAllReports FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`searchAllReports FAIL GET ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
     
     let _reports = tryParseBody<any[]>(reportsBody);
@@ -71,7 +73,9 @@ export async function createReport(client: OADR3Client, report: OADR3.Report)
         });
         reportBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`createReport FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`createReport FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(reportBody);
@@ -91,7 +95,9 @@ export async function searchReportsByReportID(client: OADR3Client, reportID: OAD
         });
         reportBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`searchReportsByReportID FAIL GET ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`searchReportsByReportID FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(reportBody);
@@ -115,7 +121,9 @@ export async function updateReport(client: OADR3Client, report: OADR3.Report)
         });
         reportBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`updateReport FAIL PUT ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`updateReport FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(reportBody);
@@ -135,7 +143,9 @@ export async function deleteReport(client: OADR3Client, reportID: OADR3.ObjectID
         });
         reportBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`deleteReport FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`deleteReport FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(reportBody);

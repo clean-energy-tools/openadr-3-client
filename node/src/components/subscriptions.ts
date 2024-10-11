@@ -4,7 +4,7 @@ import util from 'node:util';
 import got from 'got';
 import * as OADR3 from 'openadr-3-ts-types';
 import { OADR3Client } from '../client.js';
-import { tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
+import { OADR3Error, tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
 
 export async function searchSubscriptions(client: OADR3Client, params: OADR3.SearchSubscriptionsQueryParams)
     : Promise<Array<OADR3.Subscription> | undefined>
@@ -22,7 +22,9 @@ export async function searchSubscriptions(client: OADR3Client, params: OADR3.Sea
         const _progs = await got.get(endpoint.href, options as any);
         subscriptionsBody = _progs?.body;
     } catch (err: any) {
-        throw new Error(`searchSubscriptions FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`searchSubscriptions FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
     
     let subscriptions = tryParseBody<any[]>(subscriptionsBody);
@@ -46,7 +48,9 @@ export async function createSubscription(
         });
         subscriptionsBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`createSubscription FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`createSubscription FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(subscriptionsBody);
@@ -69,7 +73,9 @@ export async function searchSubscriptionByID(
         });
         subscriptionsBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`searchSubscriptionByID FAIL GET ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`searchSubscriptionByID FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(subscriptionsBody);
@@ -95,7 +101,9 @@ export async function updateSubscription(
         });
         subscriptionsBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`updateSubscription FAIL PUT ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`updateSubscription FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(subscriptionsBody);
@@ -118,7 +126,9 @@ export async function deleteSubscription(
         });
         subscriptionsBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`deleteSubscription FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`deleteSubscription FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(subscriptionsBody);

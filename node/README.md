@@ -4,10 +4,6 @@ This project is a package implementing the OpenADR 3.x REST methods.  It allows 
 
 Every method validates data supplied as method parameters, and validates data received from the VTN.
 
-TODO
-
-* Define an Error object that includes the HTTP result code
-
 ## INSTALLATION
 
 ```shell

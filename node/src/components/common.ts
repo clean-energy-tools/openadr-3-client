@@ -55,3 +55,11 @@ export function validateBody<T>(validator: (data: any) => any, item: any | undef
         return value as T;
     }
 }
+
+export class OADR3Error extends Error {
+    code: number;
+    constructor(message: string) {
+        super(message); // (1)
+        this.code = 9;
+    }
+}

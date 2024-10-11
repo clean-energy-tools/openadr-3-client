@@ -4,7 +4,7 @@ import util from 'node:util';
 import got from 'got';
 import * as OADR3 from 'openadr-3-ts-types';
 import { OADR3Client } from '../client.js';
-import { tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
+import { OADR3Error, tryParseBody, validateBody, validateBodyArray, validateParams } from './common.js';
 
 /**
  * Execute the searchAllPrograms operation on the server.
@@ -28,7 +28,9 @@ export async function searchAllPrograms(client: OADR3Client, params: OADR3.Searc
         const _progs = await got.get(endpoint.href, options as any);
         progsBody = _progs?.body;
     } catch (err: any) {
-        throw new Error(`searchAllPrograms FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`searchAllPrograms FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
     
     let _programs = tryParseBody<any[]>(progsBody);
@@ -57,7 +59,9 @@ export async function createProgram(client: OADR3Client, program: OADR3.Program)
         });
         progBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`createProgram FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`createProgram FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(progBody);
@@ -85,7 +89,9 @@ export async function searchProgramByProgramId(client: OADR3Client, id: OADR3.Ob
         });
         progBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`searchProgramByProgramId FAIL GET ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`searchProgramByProgramId FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(progBody);
@@ -114,7 +120,9 @@ export async function updateProgram(client: OADR3Client, program: OADR3.Program)
         });
         progBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`updateProgram FAIL PUT ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`updateProgram FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(progBody);
@@ -139,7 +147,9 @@ export async function deleteProgram(client: OADR3Client, id: OADR3.ObjectID)
         });
         progBody = ret?.body;
     } catch (err: any) {
-        throw new Error(`deleteProgram FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl} ${err?.response?.body}`);
+        const t = new OADR3Error(`deleteProgram FAIL ${err?.code} ${err?.response?.statusCode} ${err?.response?.statusMessage} ${err?.message} ${err?.response?.requestUrl}`);
+        t.code = err.code;
+        throw t;
     }
 
     let parsed = tryParseBody<any>(progBody);
