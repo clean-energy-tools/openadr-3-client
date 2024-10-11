@@ -1,5 +1,5 @@
 {
-  "name": "openadr-3-client",
+  "name": "@clean-energy-tools/openadr-3-client",
   "version": "1.0.0",
   "engines": {
     "node": ">=20.x"
