@@ -35,6 +35,8 @@ The tests use two clients, where they differ by the scope strings.  The VEN clie
 
 At the time of this writing, the test suite only exercises the ALL client.  Tests of the VEN client should ensure that when the VEN client makes requests it isn't allowed to perform, that those requests fail appropriately.
 
+The generation of these client objects depends on the tools in your OpenADR 3 VTN.
+
 ## Test implementation
 
 The test suites is structured where each `test.COMPONENT.js` file tests the corresponding portion of the OpenADR 3 specification.
