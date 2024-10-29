@@ -43,13 +43,14 @@ describe('Reports', async () => {
     await it('should create Program object', async () => {
         // load the program from a file
         const _program = structuredClone(minProgram);
-        _program.programName = 'TEST PROGRAM FOR REPORTS';
+        _program.programName = `TEST PROGRAM FOR REPORTS ${Math.floor(Math.random() * 10000).toString()}`;
         // console.log(`create ${util.inspect(_program)}`);
         const created = await allClient.createProgram(_program);
         const { error, value } = OADR3.joiValidateProgram(created);
         assert.ok(!error);
         progID = created.id;
         program = created;
+        // console.log(`created ${util.inspect(program)}`);
     });
 
     let eventID;
@@ -64,6 +65,7 @@ describe('Reports', async () => {
         assert.ok(!error);
         eventID = created.id;
         event = created;
+        // console.log(`created ${util.inspect(event)}`);
     });
 
     let venID;
@@ -86,6 +88,7 @@ describe('Reports', async () => {
         const _report = structuredClone(minReport);
         _report.programID = progID;
         _report.eventID   = eventID;
+        // console.log(`before createReport ${util.inspect(_report)}`);
         const created = await allClient.createReport(_report);
         const { error, value } = OADR3.joiValidateReport(created);
         assert.ok(!error);

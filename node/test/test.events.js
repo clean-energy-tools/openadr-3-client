@@ -36,6 +36,8 @@ describe('Events', async () => {
         assert.ok(typeof value.id === 'string');
         progID = created.id;
         program = created;
+
+        // console.log(`created ${util.inspect(program)}`);
     });
 
     let eventID;

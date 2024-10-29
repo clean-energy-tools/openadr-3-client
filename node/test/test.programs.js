@@ -93,6 +93,8 @@ describe('Programs', async () => {
             // console.log(err.stack);
             errored = true;
         }
+        // console.log(`not find deleted Program by ID errored ${errored}`, found);
+        // console.log(`errored ${util.inspect(errored)} modifiedID ${util.inspect(modified.id)} found ${util.inspect(found)}`);
         assert.ok(typeof found === 'undefined' || errored);
         // const { error, value } = OADR3.joiValidateProgram(found);
         // assert.ok(!error);
@@ -103,7 +105,7 @@ describe('Programs', async () => {
         const found = await allClient.searchAllPrograms({
             targetType: 'TEST'
         });
-        // console.log(found);
+        // console.log('not find deleted Program', found);
         assert.ok(Array.isArray(found));
         let hasDeleted = false;
         for (const f of found) {
