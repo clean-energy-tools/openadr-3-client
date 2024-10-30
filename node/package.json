@@ -7,24 +7,29 @@
   "main": "api.js",
   "type": "module",
   "scripts": {
-    "watch": "npx tsc -w",
-    "build": "npm-run-all build:codegen build:codegen-schemas",
-    "build:codegen": "npx openapi-codegen gen openADR -c openadr-codegen.config.ts",
-    "build:codegen-srcdir": "mkdir -p ./src/codegen",
-    "build:codegen-schemas": "cp ./codegen-build/openAdRSchemas.ts ./src/codegen/openADRSchemas.ts"
+    "watch": "env-cmd nodemon --watch ./src -e js,mjs,cjs,ts,json,yml,yaml --exec 'npm run build-all'",
+    "build-all": "npm-run-all build copy",
+    "build": "npx tsc",
+    "copy": "tscp"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.7.4",
+    "env-cmd": "^10.1.0",
+    "nodemon": "^3.1.7",
     "npm-run-all": "^4.1.5",
-    "typescript": "^5.6.2"
+    "openapi-typescript": "^7.4.2",
+    "typescript": "^5.6.2",
+    "typescript-cp": "^0.1.9"
   },
   "dependencies": {
-    "got": "^14.4.2",
     "joi": "^17.13.3",
-    "openadr-3-ts-types": "file:../../openadr-3-ts-types/package"
+    "js-yaml": "^4.1.0",
+    "openadr-3-ts-types": "file:../../openadr-3-ts-types/node/package",
+    "openapi-fetch": "^0.13.0"
   }
 }
