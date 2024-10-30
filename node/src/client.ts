@@ -531,29 +531,6 @@ export class OADR3Client {
         );
     }
 
-    // async searchAllEvents0(
-    //     params: OADR3.SearchAllEventsQueryParams
-    // ) : Promise<Array<OADR3.Event> | undefined> {
-
-    //     const searchEvents = this.#validateObject<
-    //         OADR3.SearchAllEventsQueryParams
-    //     >(
-    //         OADR3.joiValidateSearchAllEvents, params
-    //     );
-
-    //     const { data, error } = await this.#optyclient.GET('/events',
-    //         { query: searchEvents }
-    //     );
-    //     if (error) {
-    //         throw new Error(`searchAllEvents ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateArray<OADR3.Event>(
-    //         OADR3.joiValidateEvent,
-    //         data
-    //     );
-    // }
-
     /**
      * Implements the createEvent operation
      * 
@@ -570,24 +547,6 @@ export class OADR3Client {
             OADR3.joiValidateEvent
         );
     }
-
-    // async createEvent0(
-    //     event: OADR3.Event
-    // ) : Promise<OADR3.Event | undefined> {
-
-    //     const _event = this.#validateObject<OADR3.Event>(
-    //         OADR3.joiValidateEvent, event
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .POST('/events', { body: _event });
-    //     if (error) {
-    //         throw new Error(`createEvent ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Event>(
-    //         OADR3.joiValidateEvent, data);
-    // }
 
     /**
      * Implements the searchEventsByID operation
@@ -609,29 +568,6 @@ export class OADR3Client {
             OADR3.joiValidateEvent
         );
     }
-
-    // async searchEventsByID0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Event | undefined> {
-
-    //     const eventID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .GET('/events/{eventID}', {
-    //         params: {
-    //             path: { eventID: eventID }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`searchEventsByID ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Event>(
-    //         OADR3.joiValidateEvent, data
-    //     );
-    // }
 
     /**
      * Implements the updateEvent operation
@@ -655,29 +591,6 @@ export class OADR3Client {
         )
     }
 
-    // async updateEvent0(
-    //     event: OADR3.Event
-    // ) : Promise<OADR3.Event | undefined> {
-
-    //     const _event = this.#validateObject<OADR3.Event>(
-    //         OADR3.joiValidateEvent, event
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .PUT('/events/{eventID}', {
-    //         params: {
-    //             path: { eventID: _event.id }
-    //         },
-    //         body: _event
-    //     });
-    //     if (error) {
-    //         throw new Error(`updateEvent ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Event>(
-    //         OADR3.joiValidateEvent, data);
-    // }
-
     /**
      * Implements the deleteEvent operation
      * 
@@ -698,29 +611,6 @@ export class OADR3Client {
             OADR3.joiValidateEvent
         );
     }
-
-    // async deleteEvent0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Event | undefined> {
-
-    //     const eventID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .DELETE('/events/{eventID}', {
-    //         params: {
-    //             path: { eventID: eventID }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`deleteEvent ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Event>(
-    //         OADR3.joiValidateEvent, data
-    //     );
-    // }
 
     ///////////// Programs
 
@@ -745,28 +635,6 @@ export class OADR3Client {
         );
     }
 
-    // async searchAllPrograms0(
-    //     params: OADR3.SearchAllProgramsQueryParams
-    // ) : Promise<Array<OADR3.Program> | undefined> {
-
-    //     const searchPrograms = this.#validateObject<
-    //         OADR3.SearchAllProgramsQueryParams
-    //     >(
-    //         OADR3.joiValidateSearchAllEvents, params
-    //     );
-
-    //     const { data, error } = await this.#optyclient.GET('/programs',
-    //         { query: searchPrograms }
-    //     );
-    //     if (error) {
-    //         throw new Error(`searchAllPrograms ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-    
-    //     return this.#validateArray<OADR3.Program>(
-    //         OADR3.joiValidateProgram, data
-    //     );
-    // }
-
     /**
      * Implements the createProgram operation
      * 
@@ -783,25 +651,6 @@ export class OADR3Client {
             OADR3.joiValidateProgram
         );
     }
-
-    // async createProgram0(
-    //     program: OADR3.Program
-    // ) : Promise<OADR3.Program | undefined> {
-        
-    //     const _program = this.#validateObject<OADR3.Program>(
-    //         OADR3.joiValidateProgram, program
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .POST('/programs', { body: _program });
-    //     if (error) {
-    //         throw new Error(`createProgram ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Program>(
-    //         OADR3.joiValidateProgram, data
-    //     );
-    // }
 
     /**
      * Implements the searchProgramByProgramId operation
@@ -823,29 +672,6 @@ export class OADR3Client {
             OADR3.joiValidateProgram
         );
     }
-
-    // async searchProgramByProgramId0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Program | undefined> {
-
-    //     const progID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .GET('/programs/{programID}', {
-    //         params: {
-    //             path: { programID: progID }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`searchProgramByProgramId ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Program>(
-    //         OADR3.joiValidateProgram, data
-    //     );
-    // }
 
     /**
      * Implements the updateProgram operation
@@ -869,30 +695,6 @@ export class OADR3Client {
         )
     }
 
-    // async updateProgram0(
-    //     program: OADR3.Program
-    // ) : Promise<OADR3.Program | undefined> {
-
-    //     const _program: OADR3.Program
-    //     = this.#validateObject<OADR3.Program>(
-    //         OADR3.joiValidateProgram, program
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .PUT('/programs/{programID}', {
-    //         params: {
-    //             path: { programID: _program.id }
-    //         },
-    //         body: _program 
-    //     });
-    //     if (error) {
-    //         throw new Error(`updateProgram ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-    //     return this.#validateObject<OADR3.Program>(
-    //         OADR3.joiValidateProgram, data
-    //     );
-    // }
-
     /**
      * Implements the deleteProgram operation
      * 
@@ -914,30 +716,6 @@ export class OADR3Client {
             OADR3.joiValidateProgram
         );
     }
-
-    // async deleteProgram0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Program | undefined> {
-
-    //     const progID: OADR3.ObjectID
-    //     = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .DELETE('/programs/{programID}', {
-    //         params: {
-    //             path: { programID: progID }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`deleteProgram ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-        
-    //     return this.#validateObject<OADR3.Program>(
-    //         OADR3.joiValidateProgram, data
-    //     );
-    // }
 
     ///////////// Reports
 
@@ -962,28 +740,6 @@ export class OADR3Client {
         );
     }
 
-    // async searchAllReports0(
-    //     params: OADR3.SearchAllReportsQueryParams
-    // ) : Promise<Array<OADR3.Report> | undefined> {
-
-    //     const searchReports = this.#validateObject<
-    //         OADR3.SearchAllReportsQueryParams
-    //     >(
-    //         OADR3.joiValidateSearchAllReports, params
-    //     );
-
-    //     const { data, error } = await this.#optyclient.GET('/reports',
-    //         { query: searchReports }
-    //     );
-    //     if (error) {
-    //         throw new Error(`searchAllReports ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-        
-    //     return this.#validateArray<OADR3.Report>(
-    //         OADR3.joiValidateReport, data
-    //     );
-    // }
-
     /**
      * Implements the createReport operation
      * 
@@ -1000,27 +756,6 @@ export class OADR3Client {
             OADR3.joiValidateReport
         );
     }
-
-    // async createReport0(
-    //     report: OADR3.Report
-    // ) : Promise<OADR3.Report | undefined> {
-
-    //     const _report = this.#validateObject<OADR3.Report>(
-    //         OADR3.joiValidateReport, report
-    //     );
-
-    //     const { data, error } = await this.#optyclient.POST('/reports',
-    //         { body: _report }
-    //     );
-    //     if (error) {
-    //         throw new Error(`createReport ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-        
-    //     return this.#validateObject<OADR3.Report>(
-    //         OADR3.joiValidateReport, data
-    //     );
-
-    // }
 
     /**
      * Implements the searchReportsByReportID operation
@@ -1042,29 +777,6 @@ export class OADR3Client {
             OADR3.joiValidateReport
         );
     }
-
-    // async searchReportsByReportID0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Report | undefined> {
-
-    //     const reportID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .GET('/reports/{reportID}', {
-    //         params: {
-    //             path: { reportID: reportID }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`searchReportsByReportID ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-        
-    //     return this.#validateObject<OADR3.Report>(
-    //         OADR3.joiValidateReport, data
-    //     );
-    // }
 
     /**
      * Implements the updateReport operation
@@ -1088,31 +800,6 @@ export class OADR3Client {
         )
     }
 
-    // async updateReport0(
-    //     report: OADR3.Report
-    // ) : Promise<OADR3.Report | undefined> {
-
-    //     const _report: OADR3.Report
-    //     = this.#validateObject<OADR3.Report>(
-    //         OADR3.joiValidateReport, report
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .PUT('/reports/{reportID}', {
-    //         params: {
-    //             path: { reportID: _report.id }
-    //         },
-    //         body: _report 
-    //     });
-    //     if (error) {
-    //         throw new Error(`updateReport ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Report>(
-    //         OADR3.joiValidateReport, data
-    //     );
-    // }
-
     /**
      * Implements the deleteReport operation
      * 
@@ -1133,28 +820,6 @@ export class OADR3Client {
             OADR3.joiValidateReport
         );
     }
-
-    // async deleteReport0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Report | undefined> {
-    //     const reportID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .DELETE('/reports/{reportID}', {
-    //         params: {
-    //             path: { reportID: reportID }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`deleteReport ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-        
-    //     return this.#validateObject<OADR3.Report>(
-    //         OADR3.joiValidateReport, data
-    //     );
-    // }
 
     ///////////// Resources
 
@@ -1186,36 +851,6 @@ export class OADR3Client {
         );
     }
 
-    // async searchVenResources0(
-    //     id: OADR3.ObjectID,
-    //     params: OADR3.SearchVenResourcesQueryParams
-    // ) : Promise<Array<OADR3.Resource> | undefined> {
-
-    //     const venID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const searchVenResources = this.#validateObject<
-    //         OADR3.SearchVenResourcesQueryParams
-    //     >(
-    //         OADR3.joiValidateSearchVenResources, params
-    //     );
-
-    //     const { data, error } = await this.#optyclient.GET('/vens/{venID}/resources', {
-    //         params: {
-    //             path: { venID: venID },
-    //             query: searchVenResources
-    //         },
-    //     });
-    //     if (error) {
-    //         throw new Error(`searchVenResources ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-        
-    //     return this.#validateArray<OADR3.Program>(
-    //         OADR3.joiValidateResource, data
-    //     );
-    // }
-
     /**
      * Implements the createResource operation
      * 
@@ -1239,37 +874,6 @@ export class OADR3Client {
             OADR3.joiValidateResource
         );
     }
-
-    // async createResource0(
-    //     id: OADR3.ObjectID,
-    //     resource: OADR3.Resource
-    // ) : Promise<OADR3.Resource | undefined> {
-
-    //     const venID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const _resource = this.#validateObject<OADR3.Resource>(
-    //         OADR3.joiValidateResource, resource
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .POST('/vens/{venID}/resources', {
-    //         params: {
-    //             path: {
-    //                 venID: venID
-    //             },
-    //         },
-    //         body: _resource
-    //     });
-    //     if (error) {
-    //         throw new Error(`createResource ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Resource>(
-    //         OADR3.joiValidateResource, data
-    //     );
-    // }
 
     /**
      * Implements the searchVenResourceByID operation
@@ -1297,37 +901,6 @@ export class OADR3Client {
             OADR3.joiValidateResource
         );
     }
-
-    // async searchVenResourceByID0(
-    //     vid: OADR3.ObjectID,
-    //     rid: OADR3.ObjectID,
-    // ) : Promise<OADR3.Resource | undefined> {
-
-    //     const venID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, vid
-    //     );
-
-    //     const resourceID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, rid
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .GET('/vens/{venID}/resources/{resourceID}', {
-    //         params: {
-    //             path: {
-    //                 venID: venID,
-    //                 resourceID: resourceID
-    //             }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`searchVenResourceByID ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Resource>(
-    //         OADR3.joiValidateResource, data
-    //     );
-    // }
 
     /**
      * Implements the updateVenResource operation
@@ -1360,38 +933,6 @@ export class OADR3Client {
         )
     }
 
-    // async updateVenResource0(
-    //     vid: OADR3.ObjectID,
-    //     resource: OADR3.Resource
-    // ) : Promise<OADR3.Resource | undefined> {
-
-    //     const venID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, vid
-    //     );
-
-    //     const _resource = this.#validateObject<OADR3.Resource>(
-    //         OADR3.joiValidateResource, resource
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .PUT('/vens/{venID}/resources/{resourceID}', {
-    //         params: {
-    //             path: {
-    //                 venID: venID,
-    //                 resourceID: _resource.id
-    //             },
-    //         },
-    //         body: _resource
-    //     });
-    //     if (error) {
-    //         throw new Error(`updateVenResource ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Resource>(
-    //         OADR3.joiValidateResource, data
-    //     );
-    // }
-
     /**
      * Implements the deleteVenResource operation
      * 
@@ -1422,37 +963,6 @@ export class OADR3Client {
         );
     }
 
-    // async deleteVenResource0(
-    //     vid: OADR3.ObjectID, 
-    //     rid: OADR3.ObjectID
-    // ) : Promise<OADR3.Resource | undefined> {
-
-    //     const venID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, vid
-    //     );
-
-    //     const resourceID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, rid
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .DELETE('/vens/{venID}/resources/{resourceID}', {
-    //         params: {
-    //             path: {
-    //                 venID: venID,
-    //                 resourceID: resourceID
-    //             }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`deleteVenResource ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Resource>(
-    //         OADR3.joiValidateResource, data
-    //     );
-    // }
-
     ///////////// Subscriptions
 
     /**
@@ -1476,29 +986,6 @@ export class OADR3Client {
         );
     }
 
-    // async searchSubscriptions0(
-    //     params: OADR3.SearchSubscriptionsQueryParams
-    // ) : Promise<Array<OADR3.Subscription> | undefined> {
-
-    //     const searchSubscriptions = this.#validateObject<
-    //         OADR3.SearchSubscriptionsQueryParams
-    //     >(
-    //         OADR3.joiValidateSearchSubscriptions, params
-    //     );
-
-    //     const { data, error } = await this.#optyclient.GET('/subscriptions',
-    //         { query: searchSubscriptions }
-    //     );
-    //     if (error) {
-    //         throw new Error(`searchSubscriptions ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-        
-
-    //     return this.#validateArray<OADR3.Subscription>(
-    //         OADR3.joiValidateSubscription, data
-    //     );
-    // }
-
     /**
      * Implements the createSubscription operation
      * 
@@ -1515,27 +1002,6 @@ export class OADR3Client {
             OADR3.joiValidateSubscription
         );
     }
-
-    // async createSubscription0(
-    //     subscription: OADR3.Subscription
-    // ) : Promise<OADR3.Subscription | undefined> {
-
-    //     const _sub = this.#validateObject<
-    //         OADR3.Subscription
-    //     >(
-    //         OADR3.joiValidateSubscription, subscription
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .POST('/subscriptions', { body: _sub });
-    //     if (error) {
-    //         throw new Error(`createSubscription ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Subscription>(
-    //         OADR3.joiValidateSubscription, data
-    //     );
-    // }
 
     /**
      * Implements the searchSubscriptionByID operation
@@ -1557,28 +1023,6 @@ export class OADR3Client {
             OADR3.joiValidateSubscription
         );
     }
-
-    // async searchSubscriptionByID0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Subscription | undefined> {
-    //     const subID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .GET('/subscriptions/{subscriptionID}', {
-    //         params: {
-    //             path: { subscriptionID: subID }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`searchSubscriptionByID ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Subscription>(
-    //         OADR3.joiValidateSubscription, data
-    //     );
-    // }
 
     /**
      * Implements the updateSubscription operation
@@ -1604,31 +1048,6 @@ export class OADR3Client {
         )
     }
 
-    // async updateSubscription0(
-    //     subscription: OADR3.Subscription
-    // ) : Promise<OADR3.Subscription | undefined> {
-    //     const _sub = this.#validateObject<
-    //         OADR3.Subscription
-    //     >(
-    //         OADR3.joiValidateSubscription, subscription
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .PUT('/subscriptions/{subscriptionID}', {
-    //         params: {
-    //             path: { subscriptionID: _sub.id }
-    //         },
-    //         body: _sub
-    //     });
-    //     if (error) {
-    //         throw new Error(`updateSubscription ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Subscription>(
-    //         OADR3.joiValidateSubscription, data
-    //     );
-    // }
-
     /**
      * Implements the deleteSubscription operation
      * 
@@ -1649,29 +1068,6 @@ export class OADR3Client {
             OADR3.joiValidateSubscription
         );
     }
-
-    // async deleteSubscription0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Subscription | undefined> {
-
-    //     const subID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient
-    //     .DELETE('/subscriptions/{subscriptionID}', {
-    //         params: {
-    //             path: { subscriptionID: subID }
-    //         }
-    //     });
-    //     if (error) {
-    //         throw new Error(`deleteSubscription ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-
-    //     return this.#validateObject<OADR3.Subscription>(
-    //         OADR3.joiValidateSubscription, data
-    //     );
-    // }
 
     ///////////// Vens
 
@@ -1696,28 +1092,6 @@ export class OADR3Client {
         );
     }
 
-    // async searchVens0(
-    //     params: OADR3.SearchVensQueryParams
-    // ) : Promise<Array<OADR3.Ven> | undefined> {
-
-    //     const searchVens = this.#validateObject<
-    //         OADR3.SearchVensQueryParams
-    //     >(
-    //         OADR3.joiValidateSearchVens, params
-    //     );
-
-    //     const { data, error } = await this.#optyclient.GET('/vens',
-    //         { query: searchVens }
-    //     );
-    //     if (error) {
-    //         throw new Error(`searchVens ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-    
-    //     return this.#validateArray<OADR3.Ven>(
-    //         OADR3.joiValidateVen, data
-    //     );
-    // }
-
     /**
      * Implements the createVen operation
      * 
@@ -1734,26 +1108,6 @@ export class OADR3Client {
             OADR3.joiValidateVen
         );
     }
-
-    // async createVen0(
-    //     ven: OADR3.Ven
-    // ) : Promise<OADR3.Ven | undefined> {
-
-    //     const _ven = this.#validateObject<OADR3.Ven>(
-    //         OADR3.joiValidateVen, ven
-    //     );
-
-    //     const { data, error } = await this.#optyclient.POST('/vens',
-    //         { body: _ven }
-    //     );
-    //     if (error) {
-    //         throw new Error(`createVen ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-    
-    //     return this.#validateObject<OADR3.Ven>(
-    //         OADR3.joiValidateVen, data
-    //     );
-    // }
 
     /**
      * Implements the searchVenByID operation
@@ -1775,30 +1129,6 @@ export class OADR3Client {
             OADR3.joiValidateVen
         );
     }
-
-    // async searchVenByID0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Ven | undefined> {
-
-    //     const venID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient.GET('/vens/{venID}',
-    //         {
-    //             params: {
-    //                 path: { venID }
-    //             }
-    //         }
-    //     );
-    //     if (error) {
-    //         throw new Error(`searchVenByID ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-    
-    //     return this.#validateObject<OADR3.Ven>(
-    //         OADR3.joiValidateVen, data
-    //     );
-    // }
 
     /**
      * Implements the updateVen operation
@@ -1822,29 +1152,6 @@ export class OADR3Client {
         )
     }
 
-    // async updateVen0(
-    //     ven: OADR3.Ven
-    // ) : Promise<OADR3.Ven | undefined> {
-        
-    //     const _ven = this.#validateObject<OADR3.Ven>(
-    //         OADR3.joiValidateVen, ven
-    //     );
-
-    //     const { data, error } = await this.#optyclient.PUT('/vens/{venID}', {
-    //             params: {
-    //                 path: { venID: _ven.id }
-    //             },
-    //             body: _ven
-    //     });
-    //     if (error) {
-    //         throw new Error(`updateVen ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-    
-    //     return this.#validateObject<OADR3.Ven>(
-    //         OADR3.joiValidateVen, data
-    //     );
-    // }
-
     /**
      * Implements the deleteVen operation
      * 
@@ -1865,29 +1172,5 @@ export class OADR3Client {
             OADR3.joiValidateVen
         );
     }
-
-    // async deleteVen0(
-    //     id: OADR3.ObjectID
-    // ) : Promise<OADR3.Ven | undefined> {
-
-    //     const venID = this.#validateObject<OADR3.ObjectID>(
-    //         OADR3.joiValidateObjectID, id
-    //     );
-
-    //     const { data, error } = await this.#optyclient.DELETE('/vens/{venID}',
-    //         {
-    //             params: {
-    //                 path: { venID }
-    //             }
-    //         }
-    //     );
-    //     if (error) {
-    //         throw new Error(`deleteVen ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
-    //     }
-    
-    //     return this.#validateObject<OADR3.Ven>(
-    //         OADR3.joiValidateVen, data
-    //     );
-    // }
 
 }
