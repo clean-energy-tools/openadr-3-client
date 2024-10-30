@@ -34,9 +34,11 @@ describe('Auth', async () => {
         } catch (err) {
             sawErrors = true;
         }
-        // assert sawErrors === true
+        assert.ok(sawErrors === true);
+
         if (token) {
             const { error, value } = OADR3.joiClientCredentialResponse.validate(token);
+            assert.ok(error && typeof value === 'undefined');
             // assert error && !value
         }
     });
@@ -44,12 +46,14 @@ describe('Auth', async () => {
     it('should generate "ven" client token', async () => {
         venClient = new OADR3Client.OADR3Client(OADR3URL, "ven", ven_client_id, ven_client_secret, ven_scope);
         const token = await venClient.fetchToken();
+        assert.ok(typeof token !== 'undefined');
         // console.log(token);
     });
 
     it('should generate "ALLACCESS" client token', async () => {
         allClient = new OADR3Client.OADR3Client(OADR3URL, "ALLACCESS", all_client_id, all_client_secret, all_scope);
         const token = await allClient.fetchToken();
+        assert.ok(typeof token !== 'undefined');
         // console.log(token);
     });
 

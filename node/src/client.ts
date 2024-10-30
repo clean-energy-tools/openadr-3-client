@@ -9,7 +9,6 @@ export const __dirname = path.dirname(__filename);
 
 import YAML from 'js-yaml';
 import * as OADR3 from 'openadr-3-ts-types';
-import got from 'got';
 
 import createClient, {
     type Middleware
@@ -39,7 +38,7 @@ export class OADR3Client {
     #client_secret: string;
     #scope?: string;
 
-    #optyclient?: any;
+    #client?: any;
 
     /**
      * Construct a client object
@@ -74,10 +73,10 @@ export class OADR3Client {
         this.#client_secret = client_secret;
         this.#scope = scope;
 
-        this.#optyclient = createClient<paths>({
+        this.#client = createClient<paths>({
             baseUrl: oadr3URL.href
         });
-        this.#optyclient.use(this.#authMiddleware);
+        this.#client.use(this.#authMiddleware);
 
 
         // console.log({
@@ -94,32 +93,35 @@ export class OADR3Client {
         // });
     }
 
-    async initClient(serverUrl: string) {
-        // await api.init<OpenADR3Client>();
-        // this.#client = 
-
-        // console.log(`initClient serverUrl: ${serverUrl} baseURL ${this.#api.getBaseURL()}`);
-    }
-
     /**
      * Add an Authorization header to requests
      * before they're sent.
      */
     #authMiddleware: Middleware = ((self) => {
         return <Middleware>{
-        async onRequest({ request }) {
+        async onRequest({ request, schemaPath }) {
+            // console.log(`onRequest ${util.inspect(request)}`);
+
+            // Do nothing for auth requests.
+            if (schemaPath === '/auth/token') {
+                // console.log(`onRequest SKIP ${request.method} ${request.url}`);
+                return undefined;
+            }
+
+            // console.log(`onRequest not skipped ${request.method} ${request.url}`);
+
             // fetch token, if it doesn’t exist
             if (!self.#authToken) {
                 const authRes = await self.fetchToken();
                 if (authRes.access_token) {
-                self.#authToken = authRes;
+                    self.#authToken = authRes;
                 } else {
-                // handle auth error
+                    // handle auth error
                 }
             }
         
             if (!self.#authToken?.access_token
-                || !(typeof self.#authToken.access_token === 'string')
+             || !(typeof self.#authToken.access_token === 'string')
             ) {
                 throw new Error(`authMiddleware did not generate access_token`);
             }
@@ -220,32 +222,21 @@ export class OADR3Client {
     get scope() { return this.#scope; }
 
     /**
-     * Return all data from the client required for configuring Got calls.
-     * 
-     * @param endpoint 
-     * @returns 
-     */
-    async clientParams(endpoint: string)
-        : Promise<{ endpoint: URL, headers: any }>
-    {
-        return {
-            endpoint: this.endpointURL(endpoint),
-            headers: await this.authHeaders()
-        };
-    }
-
-    /**
      * Compute the URL, starting from oadr3URL, for the
      * API endpoint given in the string.
+     * 
+     * For use with OpenAPI-Fetch, this function
+     * is not needed.  But, the fetchToken method
+     * 
      * @param endpoint 
      * @returns The corresponding URL object
      */
-    endpointURL(endpoint: string): URL {
-        const ret = new URL(this.#oadr3URL.href);
-        const pname = ret.pathname;
-        ret.pathname = path.join(pname, endpoint);
-        return ret;
-    }
+    // #endpointURL(endpoint: string): URL {
+    //     const ret = new URL(this.#oadr3URL.href);
+    //     const pname = ret.pathname;
+    //     ret.pathname = path.join(pname, endpoint);
+    //     return ret;
+    // }
 
     #authToken?: OADR3.ClientCredentialResponse;
     #authTokenTimeout?: any;
@@ -288,55 +279,65 @@ export class OADR3Client {
         if (this.#authToken) {
             return this.#authToken;
         }
-        
-        let { error, value } = OADR3.joiValidateClientCredentialRequest({
-            grant_type: "client_credentials",
-            client_id: this.#client_id,
-            client_secret: this.#client_secret,
-            scope: this.#scope
+
+        let request: OADR3.ClientCredentialRequest;
+        {
+            let { error, value } = OADR3.joiValidateClientCredentialRequest({
+                grant_type: "client_credentials",
+                client_id: this.#client_id,
+                client_secret: this.#client_secret,
+                scope: this.#scope
+            });
+            if (error) {
+                throw new Error(`fetchToken FAIL ${util.inspect(error.details)}`);
+            }
+            request = value;
+        }
+        // let s = new URLSearchParams(Object.entries(o)).toString();
+
+        // For OAuth2 fetchToken, the content type
+        // must be as shown here.  This gets used
+        // in the client request.
+        const reqHeaders = new Headers();
+        reqHeaders.set('Content-Type',
+            'application/x-www-form-urlencoded');
+
+        const { data, error } = await this.#client.POST('/auth/token', {
+            headers: reqHeaders,
+            body: request,
+            // Encoding an object in the
+            // x-www-form-urlencoded format
+            // is done with URLSearchParams.
+            bodySerializer(body: any) {
+                const ret = new URLSearchParams(
+                    Object.entries(body)
+                ); // .toString();
+                // console.log(`serialize /auth/token body ${ret.toString()}`);
+                return ret;
+            }
         });
 
-        const request: OADR3.ClientCredentialRequest = value;
-        const endpoint = this.endpointURL(path.join('auth', 'token'));
-
-        // console.log(`fetchToken ${endpoint.href} GET w/ ${util.inspect(request)}`);
-
-        let res;
-        try {
-            res = await got.post(
-                endpoint.href,
-                {
-                    // Got autoconverts this to use
-                    //
-                    // Content-Type
-                    // application/x-www-form-urlencoded
-                    //
-                    // And to use URLSearchParams to
-                    // encode the form field
-                    // which is exactly what's required
-                    form: request
-                }
-            );
-        } catch(err: any) {
-            throw new Error(`fetchToken ERROR ${res?.statusCode} ${res?.statusMessage} ${res?.url} ${res?.method} ${util.inspect(res?.headers)} ${err?.message} ${util.inspect(res?.body)}`);
-        }
-
-        if (res.statusCode !== 200) {
-            throw new Error(`fetchToken ERROR ${res?.statusCode} ${res?.statusMessage} ${res?.url} ${res?.method} ${util.inspect(res?.headers)} ${util.inspect(res?.body)}`);
-        }
-
-        const _ccresponse = JSON.parse(res.body);
-        // console.log(`${res?.body} ==> ${util.inspect(_ccresponse)}`);
-        const result = OADR3.joiClientCredentialResponse.validate(_ccresponse);
-        error = result.error;
-        value = result.value;
         if (error) {
-            throw new Error(`fetchToken FAIL response body not Client Credential Response - ${util.inspect(error.details)}`);
+            throw new Error(`#fetchToken ERROR ${error.type} ${error.status} ${error.title} ${error.detail}`);
         }
 
-        const ccresponse = value as OADR3.ClientCredentialResponse;
+        // console.log(`fetchToken fetched ${util.inspect(data)}`);
+
+        let ccresponse: OADR3.ClientCredentialResponse;
+        {
+            const { error, value } = OADR3.joiClientCredentialResponse.validate(data);
+            if (error) {
+                throw new Error(`fetchToken FAIL response body not Client Credential Response - ${util.inspect(error.details)}`);
+            }
+
+            ccresponse = value;
+        }
+
+        // console.log(`fetchToken parsed ${util.inspect(ccresponse)}`);
+
         this.#rememberOAuth2Token(ccresponse);
         return ccresponse;
+
     }
 
     /**
@@ -383,7 +384,7 @@ export class OADR3Client {
                 validateParams, params
             );
 
-        const { data, error } = await this.#optyclient.GET(endpoint,
+        const { data, error } = await this.#client.GET(endpoint,
             pathParams
             ? {
                 params: { path: pathParams },
@@ -413,7 +414,7 @@ export class OADR3Client {
             validateObj, object
         );
 
-        const { data, error } = await this.#optyclient
+        const { data, error } = await this.#client
         .POST(endpoint, 
             pathParams
             ? {
@@ -442,7 +443,7 @@ export class OADR3Client {
 
         // console.log(`#searchObjectsByID id ${util.inspect(id)} endpoint ${util.inspect(endpoint)} pathParams ${util.inspect(pathParams)}`);
 
-        const { data, error } = await this.#optyclient
+        const { data, error } = await this.#client
         .GET(endpoint, {
             params: { path: pathParams }
         });
@@ -469,7 +470,7 @@ export class OADR3Client {
         //     validateObj, object
         // );
 
-        const { data, error } = await this.#optyclient
+        const { data, error } = await this.#client
         .PUT(endpoint, {
             params: {
                 path: pathParams
@@ -491,7 +492,7 @@ export class OADR3Client {
         validateObj: (data: any) => any
     ) : Promise<Tobj | undefined> {
 
-        const { data, error } = await this.#optyclient.DELETE(endpoint,
+        const { data, error } = await this.#client.DELETE(endpoint,
             {
                 params: {
                     path: pathParams
