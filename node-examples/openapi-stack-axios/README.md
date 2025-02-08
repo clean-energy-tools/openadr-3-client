@@ -1,0 +1,130 @@
+
+
+### Using OpenAPIStack's openapi-client-axios class
+
+The [OpenAPIStack](https://openapistack.co/) is, like OpenAPI TypeScript, a package of functionality useful for implementing OpenAPI in TypeScript.  The packages `openapi-client-axios`, `openapi-client-axios-typegen`, `openapi-backend`, `openapicmd`, and `openapi-stack` are all tied together into this OpenAPI Stack project.
+
+The OpenAPIBackend sub-package eases the implementation of a server defined by an OpenAPI specification.  One hands to this class the specification, and then you plug it into a framework like ExpressJS.  Your task is to implement handler functions without having to worry about creating router functions.
+
+The OpenAPIClientAxios sub-package is built atop Axios, and eases the implementation of client code defined by an OpenAPI specification.  One hands this class the specification, and it auto-generates a class with methods matching the operations defined in the specification.
+
+Outside of the `OADR3Client` class, I added code to read the specification:
+
+```js
+const oadr = await fsp.readFile(
+    path.join(__dirname, 'oadr3.0.1.yaml'),
+    'utf8'
+);
+const SPEC = <Document>YAML.load(oadr);
+```
+
+In the `OADR3Client` constructor, I added this:
+
+```js
+this.#api = new OpenAPIClientAxios({
+    definition: SPEC,
+    withServer: { // THis might not be required
+        url: oadr3URL.href
+    },
+    axiosConfigDefaults: {
+        // This is required
+        baseURL: oadr3URL.href
+    }
+});
+```
+
+With `OpenAPIClientAxios` one generates an `api` object, from which one generates a `client` object.  This shows creation of the `api` object.  One issue that took a long time to debug is how to specify the base URL of the server.  After hours of checking things it was found adding `axiosConfigDefaults.baseURL` as shown here took care of that.
+
+Because the `client` object is generated in an `async` function, it could not be generated in the constructor.  Instead this method was added:
+
+```js
+async getClient() {
+    if (!this.#api) {
+        throw new Error(`getClient api not initialized`);
+    }
+    if (this.#client) {
+        return this.#client;
+    }
+    await this.#api.init<OpenADR3Client>();
+    this.#client = await this.#api.
+        getClient<OpenADR3Client>() as OpenADR3Client;
+
+    return this.#client;
+}
+```
+
+This first calls `api.init`, supplying an object type `OpenADR3Client`, then `api.getClient`, supplying the same type.
+
+This type is generated using the `openapi-client-axios-typegen` package, that is also part of OpenAPIStack.  While there is a `typegen` command documented on the OpenAPIStack webpage, in the Client area it instead says to use `openapi-client-axios-typegen`.  It is executed as follows:
+
+```shell
+$ npx openapi-client-axios-typegen ../../oadr3.0.1.yaml >oadr3.d.ts
+```
+
+This generates data types and other information as does OpenAPI Codegen and OpenAPI TypeScript.
+
+```js
+import {
+    Client as OpenADR3Client,
+    Components,
+    Paths,
+    PathsDictionary,
+    OperationMethods,
+} from "./oadr3.d.js";
+```
+
+Those generated types are imported this way, with the generated `Client` type imported as `OpenADR3Client`.  It is defined as:
+
+```js
+export type Client = OpenAPIClient<OperationMethods, PathsDictionary>
+```
+
+And the `OpenAPIClient` type comes from the `openapi-client-axios` package.
+
+The `OpenADR3Client` type is therefore derived from data generated from the OpenADR specification.
+
+In the `OADR3Client` class, implementing a request method then becomes:
+
+```js
+async searchAllEvents(
+    params: OADR3.SearchAllEventsQueryParams
+) : Promise<Array<OADR3.Event> | undefined> {
+
+    const searchEvents = validateParams<
+        OADR3.SearchAllEventsQueryParams
+    >(
+        OADR3.joiValidateSearchAllEvents,
+        params
+    );
+
+    const result = await (await this.getClient()).searchAllEvents(
+        searchEvents,
+        undefined,
+        { headers: await this.authHeaders() }
+    );
+    if (result.status !== 200) {
+        throw new Error(`searchAllEvents FAIL (${result.status}) ${result.statusText}`);
+    }
+    const events: OADR3.Event[] = result.data;
+
+    return validateBodyArray<OADR3.Event>(
+        OADR3.joiValidateEvent,
+        events
+    );
+}
+```
+
+Validation of the request parameters, and the result, are both handled with the utility functions we discussed earlier.
+
+The request is invoked as `await (await this.getClient()).searchAllEvents(...)`.  Rather than using the endpoint path, as with OpenAPI Fetch, we use the operation ID.
+
+The weirdity here is having to `await this.getClient()` before being able to `await client.searchAllEvents()`.  That's a side effect of the implementation choices made ealier.
+
+In `openapi-client-axios`, request methods have the signature:
+
+```js
+client.operationId(parameters?, data?, config?)
+```
+
+In this case we have `parameters`, no `data`, and a `config` object that includes the authorization headers generated by the `authHeaders` method.  By contrast, the `createEvents` method has no `parameters`, a `data` object, and the same `config` object.  The difference is whether an operation submits, via `PUT` or `POST`, a data object, or whether it is requesting actions via `GET` or `DELETE`.
+
