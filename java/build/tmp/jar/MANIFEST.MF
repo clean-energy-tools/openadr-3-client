@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: OpenADR 3 Java Client
+Implementation-Version: 1.0.0
+Main-Class: com.openadr.client.example.ExampleUsage
+

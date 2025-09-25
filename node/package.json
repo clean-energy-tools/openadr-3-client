@@ -1,35 +1,43 @@
 {
-  "name": "@clean-energy-tools/openadr-3-client",
+  "name": "openadr-3-client",
   "version": "1.0.0",
-  "engines": {
-    "node": ">=20.x"
-  },
-  "main": "api.js",
+  "description": "OpenADR 3 client library for Node.js",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
-    "watch": "env-cmd nodemon --watch ./src -e js,mjs,cjs,ts,json,yml,yaml --exec 'npm run build-all'",
-    "build-all": "npm-run-all build copy",
-    "build": "npx tsc",
-    "copy": "tscp"
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "test": "npm run build && node --test dist/test/*.js",
+    "lint": "echo 'No linter configured yet'",
+    "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "dependencies": {},
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
-    "@types/node": "^22.7.4",
-    "env-cmd": "^10.1.0",
-    "nodemon": "^3.1.7",
-    "npm-run-all": "^4.1.5",
-    "openapi-typescript": "^7.4.2",
-    "typescript": "^5.6.2",
-    "typescript-cp": "^0.1.9"
+    "typescript": "^5.6.0",
+    "@types/node": "^24.0.0"
   },
-  "dependencies": {
-    "joi": "^17.13.3",
-    "js-yaml": "^4.1.0",
-    "openadr-3-ts-types": "file:../../openadr-3-ts-types/node/package",
-    "openapi-fetch": "^0.13.0"
-  }
+  "files": [
+    "dist/**/*"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "keywords": [
+    "openadr",
+    "openadr3",
+    "demand-response",
+    "energy",
+    "rest-api",
+    "oauth2"
+  ],
+  "author": "",
+  "license": "Apache-2.0"
 }

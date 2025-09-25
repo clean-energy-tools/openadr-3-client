@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openadr-3-client"
+version = "1.0.0"
+description = "Python client library for OpenADR 3.1.0 protocol"
+authors = [
+    {name = "OpenADR Client Project", email = "info@openadr.org"},
+]
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.11"
+keywords = ["OpenADR", "OpenADR3", "Energy", "Demand Response", "REST API", "OAuth2"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+]
+
+dependencies = [
+    "pydantic>=2.0.0",
+    "typing-extensions>=4.0.0",
+    "httpx>=0.25.0",
+    "authlib>=1.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "mypy>=1.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "pre-commit>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/openadr/openadr-3-client"
+Repository = "https://github.com/openadr/openadr-3-client"
+Documentation = "https://github.com/openadr/openadr-3-client/tree/main/python"
+Issues = "https://github.com/openadr/openadr-3-client/issues"
+
+[project.scripts]
+openadr3-example = "openadr_client.examples.basic:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=src --cov-report=term-missing --cov-report=html"
