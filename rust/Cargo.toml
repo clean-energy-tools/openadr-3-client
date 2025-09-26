@@ -1,0 +1,40 @@
+[package]
+name = "openadr3-client"
+version = "1.0.0"
+edition = "2021"
+description = "Rust client library for OpenADR 3.1.0 protocol"
+license = "Apache-2.0"
+repository = "https://github.com/openadr/openadr-3-client"
+keywords = ["openadr", "openadr3", "energy", "demand-response", "rest-api", "oauth2"]
+categories = ["api-bindings", "network-programming", "web-programming::http-client"]
+readme = "README.md"
+authors = ["OpenADR Client Project <info@openadr.org>"]
+
+[dependencies]
+# Basic async runtime without full features to avoid dependency issues
+tokio = { version = "1.20", features = ["rt", "rt-multi-thread", "macros", "sync"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+thiserror = "1.0"
+
+# Basic UUID support  
+uuid = { version = "1.0", features = ["v4"] }
+
+# Date/time handling - minimal features with clock
+chrono = { version = "0.4.19", default-features = false, features = ["std", "serde", "clock"] }
+
+[dev-dependencies]
+tokio-test = "0.4"
+
+# Examples
+[[example]]
+name = "basic_usage"
+path = "examples/basic_usage.rs"
+
+[[example]]
+name = "programs_api"
+path = "examples/programs_api.rs"
