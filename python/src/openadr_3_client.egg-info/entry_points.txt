@@ -1,0 +1,2 @@
+[console_scripts]
+openadr3-example = openadr_client.examples.basic:main
